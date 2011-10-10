@@ -5,6 +5,10 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 	def run(self, edit, action): 
 
+		if action == 'model':
+			__goto_model()
+			return
+		
 		action_folder = {
 			'get_item_of'  : 'Content',
 			'select'       : 'Content',
@@ -16,6 +20,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		}
 
 		self.opened_view = self.__switch_to(action_folder[action])
+		
 		self.search_for_sub = 'sub ' + action + '_' + self.__currentScreenType()
 		sublime.set_timeout(self.__seek_if_view_loaded, 250)
 
@@ -55,3 +60,16 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 		return self.view.window().open_file(new_file)
 
+
+	def __goto_model(self): 
+
+		if __current_folder() != 'Model':
+			self.old_folder = __current_folder()
+			__switch_to('Model')
+			return
+		
+		__switch_to (self.old_folder)
+
+
+	def __current_folder(self):
+		return os.path.basename(os.path.dirname(self.view.file_name())
