@@ -6,7 +6,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 	def run(self, edit, action): 
 
 		if action == 'model':
-			__goto_model()
+			self.__goto_model()
 			return
 		
 		action_folder = {
@@ -62,14 +62,20 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 
 	def __goto_model(self): 
-
-		if __current_folder() != 'Model':
-			self.old_folder = __current_folder()
-			__switch_to('Model')
-			return
 		
-		__switch_to (self.old_folder)
+		sublime.status_message(self.__current_folder())
+		
+		if self.__current_folder() == 'Model':
+			self.__switch_to(self.old_folder)
+			return
 
-
+		self.old_folder = self.__current_folder()
+		self.__switch_to('Model')
+	
+	
 	def __current_folder(self):
-		return os.path.basename(os.path.dirname(self.view.file_name())
+		
+		folder_abspath = os.path.dirname(self.view.file_name())
+		
+		return os.path.split(folder_abspath)[1]
+	
