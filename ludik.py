@@ -5,6 +5,8 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 	def run(self, edit, action): 
 
+		self.edit = edit
+
 		if action == 'model':
 			self.__goto_model()
 			return
@@ -21,7 +23,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 		self.opened_view = self.__switch_to(action_folder[action])
 		
-		self.search_for_sub = 'sub ' + action + '_' + self.__currentScreenType()
+		self.action = action
 		sublime.set_timeout(self.__seek_if_view_loaded, 250)
 
 	def __seek_if_view_loaded(self):
@@ -29,11 +31,12 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			sublime.set_timeout(self.__seek_if_view_loaded, 250)
 			return
 		
-		sublime.status_message(self.search_for_sub)
-		self.__goto_sub(self.opened_view, self.search_for_sub)
+		sublime.status_message(self.__subname(self.action))
+		self.__goto_sub(self.opened_view, self.action)
 
-	def __goto_sub(self, view, subname):
+	def __goto_sub(self, view, action):
 		
+		subname = self.__subname(action)
 		pt = view.find(subname, 0)
 		
 		if pt:
@@ -41,8 +44,36 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			view.sel().add(pt.begin())
 
 			view.show(pt.begin())
-	
-		
+			return
+
+		if sublime.ok_cancel_dialog(subname + ' doesn''t exist. Create it?'):
+			sub_header = "\n################################################################################\n\n"
+			sub_body = subname + ' { # comments go here\n' + self.__sub_template(action) + "\n}"
+			sub_definition = sub_header + sub_body + "\n"
+
+			view.sel().clear()
+			view.insert(self.edit, 0, sub_definition)
+			view.sel().add(view.text_point(4, 0))
+			view.show(0)
+			sublime.status_message(subname + ' created.')
+
+	def __sub_template(self, action):
+
+		template_path = os.path.join(
+			sublime.packages_path(),
+			'ludik-sublime',
+			'templates',
+			'sub_' + action + '.tpl'
+		)
+
+		template = open(template_path, 'r').read()
+
+		template = template.replace('__TYPE__', self.__currentScreenType())
+		return template
+
+	def __subname(self, action):
+		return 'sub ' + action + '_' + self.__currentScreenType()
+
 	def __currentScreenType(self):
 		file_name = os.path.basename(self.view.file_name())
 		return os.path.splitext(file_name)[0]
