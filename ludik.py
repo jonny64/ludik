@@ -61,7 +61,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 		template_path = os.path.join(
 			sublime.packages_path(),
-			'ludik-sublime',
+			'ludik',
 			'templates',
 			'sub_' + action + '.tpl'
 		)
