@@ -1,22 +1,22 @@
-	my $data = __d ($_[0]);	
+	my $data = __d ($_[0]);
 
 	$_REQUEST {__focused_input} = '_label';
 
 	draw_form ({
-	
+
 			right_buttons => [del ($data)],
-			
+
 			no_edit => $data -> {no_del},
-			
+
 			path => [
 				{type => '__TYPE__', name => action_type_label},
 				{type => '__TYPE__', name => $data -> {label}, id => $data -> {id}},
 			],
-			
+
 		},
-		
+
 		$data,
-		
+
 		[
 			{
 				name    => 'label',
@@ -53,9 +53,9 @@
 	draw_table (
 
 		sub {
-		
+
 			__d ($i);
-		
+
 			draw_cells ({
 				bgcolor => $i -> {id} == $data -> {id} ? '#ffffd0' : undef,
 			},[
@@ -64,23 +64,23 @@
 					name => "_clone_$$i{id}",
 					off  => $i -> {id} == $data -> {id},
 				},
-				
+
 				$i -> {label},
-				
+
 			]),
-		
+
 		},
-		
+
 		$data -> {clones},
-		
+
 		{
-			
+
 			title => {label => 'Похожие названия'},
-			
+
 			off   => !$_REQUEST{__read_only} || @{$data -> {clones}} < 2,
-			
+
 			name  => 't1',
-						
+
 			top_toolbar => [{
 				keep_params => ['type', 'id'],
 			},
@@ -92,9 +92,9 @@
 					keep_params => [],
 				},
 			],
-			
+
 			toolbar => draw_centered_toolbar ({},
-				
+
 				[
 					{
 						icon  => 'delete',

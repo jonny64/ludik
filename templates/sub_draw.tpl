@@ -21,7 +21,7 @@
 				draw_cells ({
 					href => "/?type=__TYPE__&id=$$i{id}",
 				},[
-	
+
 					{
 						type   => 'checkbox',
 						name   => "___TYPE___$i->{id}",
@@ -43,9 +43,9 @@
 			$data -> {__TYPE__},
 
 			{
-				
+
 				name => 't1',
-				
+
 				title => {label => action_type_label},
 
 #				path => [
@@ -106,7 +106,7 @@
 					fake_select (),
 
 				],
-				
+
 				toolbar => draw_centered_toolbar ({},[
 
 					{
