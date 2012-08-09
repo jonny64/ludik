@@ -68,7 +68,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 		template = open(template_path, 'r').read()
 
-		template = template.replace('__TYPE__', self.__currentScreenType())
+		template = template.decode('cp1251').replace('__TYPE__', self.__currentScreenType())
 		return template
 
 	def __subname(self, action):
