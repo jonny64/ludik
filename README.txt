@@ -1,6 +1,6 @@
 1. DESCRIPTION
 
-	This Sublime 2 plugin adds navigation hotkeys and templates for Eludia.pm framework (http://eludia.ru/wiki)
+	This Sublime 2 plugin adds navigation hotkeys and templates for Eludia.pm framework (http://github.com/do-/eludia)
 
 2. INSTALLATION
 
