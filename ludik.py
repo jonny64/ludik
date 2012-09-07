@@ -109,4 +109,24 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		folder_abspath = os.path.dirname(self.view.file_name())
 		
 		return os.path.split(folder_abspath)[1]
-	
+
+class LudikSave(sublime_plugin.EventListener):
+	"""writes model to database after model file editing"""
+
+	def on_post_save(self, view):
+
+		folder_abspath = os.path.dirname(view.file_name())
+		current_folder = os.path.split(folder_abspath)[1]
+		if current_folder != 'Model':
+			return
+
+		for module_folder in view.window().folders():
+
+			menu_file = os.path.join(module_folder, 'lib', 'Content', 'menu.pm')
+			if os.path.exists(menu_file):
+				self.touch(menu_file)
+				print 'touch ' + menu_file
+
+	def touch(self, fname, times=None):
+		with file(fname, 'a'):
+			os.utime(fname, times)
