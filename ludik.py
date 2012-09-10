@@ -122,7 +122,12 @@ class LudikSave(sublime_plugin.EventListener):
 
 		for module_folder in view.window().folders():
 
-			menu_file = os.path.join(module_folder, 'lib', 'Content', 'menu.pm')
+			menu_path = ['lib', 'Content', 'menu.pm']
+			if os.path.split(module_folder)[1] == 'lib':
+				menu_path.remove('lib')
+
+			menu_file = os.path.join(module_folder, *menu_path)
+
 			if os.path.exists(menu_file):
 				self.touch(menu_file)
 				print 'touch ' + menu_file
