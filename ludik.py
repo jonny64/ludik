@@ -10,7 +10,13 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		if action == 'model':
 			self.__goto_model()
 			return
-		
+
+		if not hasattr(self, 'last_sub_pos'):
+			self.last_sub_pos = {}
+		if not hasattr(self, 'current_action'):
+			self.current_action = None
+		self.store_last_sub_position(self.view, self.current_action)
+
 		action_folder = {
 			'get_item_of'  : 'Content',
 			'select'       : 'Content',
@@ -22,7 +28,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		}
 
 		self.opened_view = self.__switch_to(action_folder[action])
-		
+
 		self.action = action
 		sublime.set_timeout(self.__seek_if_view_loaded, 250)
 
@@ -38,12 +44,15 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		
 		subname = self.__subname(action)
 		pt = view.find(subname, 0)
-		
-		if pt:
-			view.sel().clear()
-			view.sel().add(pt.begin())
 
-			view.show(pt.begin())
+		if pt:
+			position = self.restore_last_sub_position(view, action) or pt.begin()
+			view.sel().clear()
+			view.sel().add(position)
+
+			view.show(position)
+
+			self.current_action = action
 			return
 
 		if sublime.ok_cancel_dialog(subname + ' doesn''t exist. Create it?'):
@@ -56,6 +65,28 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			view.sel().add(view.text_point(4, 0))
 			view.show(0)
 			sublime.status_message(subname + ' created.')
+
+			self.current_action = action
+
+	def store_last_sub_position(self, view, action):
+
+		if not action:
+			return
+
+		position_cache = {
+			'pos': view.sel()[0].begin()
+			, 'timestamp': os.path.getmtime(view.file_name())
+		}
+		self.last_sub_pos[action + '_' + view.file_name()] = position_cache
+
+	def restore_last_sub_position(self, view, action):
+
+		position_cache = self.last_sub_pos.get(action + '_' + view.file_name(), {})
+
+		if position_cache and position_cache['timestamp'] == os.path.getmtime(view.file_name()):
+			return position_cache['pos']
+
+		return 0
 
 	def __sub_template(self, action):
 
