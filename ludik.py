@@ -3,14 +3,14 @@ import sublime, sublime_plugin, os
 class LudikMoveCommand(sublime_plugin.TextCommand):
 	"""seeks and sets cursor to the beggining of standart eludia screen function"""
 
-	def run(self, edit, action): 
+	def run(self, edit, action):
 
 		self.edit = edit
 
 		if action == 'model':
 			self.__goto_model()
 			return
-		
+
 		action_folder = {
 			'get_item_of'  : 'Content',
 			'select'       : 'Content',
@@ -21,24 +21,22 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			'draw'         : 'Presentation'
 		}
 
-		self.opened_view = self.__switch_to(action_folder[action])
-		
 		self.action = action
-		sublime.set_timeout(self.__seek_if_view_loaded, 250)
 
-	def __seek_if_view_loaded(self):
-		if self.opened_view.is_loading():
-			sublime.set_timeout(self.__seek_if_view_loaded, 250)
-			return
-		
-		sublime.status_message(self.__subname(self.action))
-		self.__goto_sub(self.opened_view, self.action)
+		if self.view.file_name() == self.__build_new_file_name (action_folder[action]):
+
+			sublime.status_message(self.__subname(self.action))
+			self.__goto_sub(self.view, self.action)
+
+		else:
+
+			self.opened_view = self.__switch_to(action_folder[action])
 
 	def __goto_sub(self, view, action):
-		
+
 		subname = self.__subname(action)
 		pt = view.find(subname, 0)
-		
+
 		if pt:
 			view.sel().clear()
 			view.sel().add(pt.begin())
@@ -78,12 +76,15 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		file_name = os.path.basename(self.view.file_name())
 		return os.path.splitext(file_name)[0]
 
-	def __switch_to(self, target_folder):
-		
+	def __build_new_file_name(self, target_folder):
+
 		current_screen_folder = os.path.dirname(self.view.file_name())
-		
 		lib_dir = os.path.dirname(current_screen_folder)
-		new_file = os.path.join(lib_dir, target_folder, self.__currentScreenType()) + '.pm'
+		return os.path.join(lib_dir, target_folder, self.__currentScreenType()) + '.pm'
+
+	def __switch_to(self, target_folder):
+
+		new_file = self.__build_new_file_name (target_folder)
 
 		if not os.path.exists(new_file):
 			sublime.status_message('file ' + new_file + ' does not exist')
@@ -92,22 +93,22 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		return self.view.window().open_file(new_file)
 
 
-	def __goto_model(self): 
-		
+	def __goto_model(self):
+
 		sublime.status_message(self.__current_folder())
-		
+
 		if self.__current_folder() == 'Model':
 			self.__switch_to(self.old_folder)
 			return
 
 		self.old_folder = self.__current_folder()
 		self.__switch_to('Model')
-	
-	
+
+
 	def __current_folder(self):
-		
+
 		folder_abspath = os.path.dirname(self.view.file_name())
-		
+
 		return os.path.split(folder_abspath)[1]
 
 class LudikSave(sublime_plugin.EventListener):
