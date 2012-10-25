@@ -12,13 +12,15 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			return
 
 		action_folder = {
-			'get_item_of'  : 'Content',
-			'select'       : 'Content',
-			'do_update'    : 'Content',
-			'do_create'    : 'Content',
-			'do_delete'    : 'Content',
-			'draw_item_of' : 'Presentation',
-			'draw'         : 'Presentation'
+			'get_item_of'     : 'Content',
+			'select'          : 'Content',
+			'do_update'       : 'Content',
+			'validate_update' : 'Content',
+			'do_create'       : 'Content',
+			'do_delete'       : 'Content',
+			'validate_delete' : 'Content',
+			'draw_item_of'    : 'Presentation',
+			'draw'            : 'Presentation'
 		}
 
 		self.action = action

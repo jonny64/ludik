@@ -7,7 +7,10 @@
 	{ "keys": ["alt+w"], "command": "ludik_move", "args": {"action": "draw"}},
 	{ "keys": ["alt+m"], "command": "ludik_move", "args": {"action": "draw_item_of"}},
 	{ "keys": ["alt+u"], "command": "ludik_move", "args": {"action": "do_update"}},
+	{ "keys": ["alt+ctrl+u"], "command": "ludik_move", "args": {"action": "validate_update"}},
 	{ "keys": ["alt+c"], "command": "ludik_move", "args": {"action": "do_create"}},
 	{ "keys": ["alt+d"], "command": "ludik_move", "args": {"action": "do_delete"}},
+	{ "keys": ["alt+ctrl+d"], "command": "ludik_move", "args": {"action": "validate_delete"}},
+
 	{ "keys": ["f5"],    "command": "ludik_move", "args": {"action": "model"}}
 ]
