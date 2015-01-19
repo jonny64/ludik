@@ -48,7 +48,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 		if sublime.ok_cancel_dialog(subname + ' doesn''t exist. Create it?'):
 			sub_header = "\n################################################################################\n\n"
-			sub_body = subname + ' { # comments go here\n' + self.__sub_template(action) + "\n}"
+			sub_body = subname + ' { # comments go here\n\n' + self.__sub_template(action) + "\n}"
 			sub_definition = sub_header + sub_body + "\n"
 
 			view.sel().clear()
