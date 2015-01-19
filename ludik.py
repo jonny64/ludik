@@ -120,12 +120,12 @@ class LudikSave(sublime_plugin.EventListener):
 
 		folder_abspath = os.path.dirname(view.file_name())
 		current_folder = os.path.split(folder_abspath)[1]
-		if current_folder != 'Model':
+		library_file = os.path.basename(view.file_name()).startswith('_lib');
+		if current_folder != 'Model' and not library_file:
 			return
-
 		for module_folder in view.window().folders():
 
-			menu_path = ['lib', 'Content', 'menu.pm']
+			menu_path = ['lib', 'Config.pm'] if library_file else ['lib', 'Content', 'menu.pm']
 			if os.path.split(module_folder)[1] == 'lib':
 				menu_path.remove('lib')
 
