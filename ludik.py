@@ -133,8 +133,8 @@ class LudikSave(sublime_plugin.EventListener):
 
 			if os.path.exists(menu_file):
 				self.touch(menu_file)
-				print 'touch ' + menu_file
+				print ('touch ' + menu_file)
 
 	def touch(self, fname, times=None):
-		with file(fname, 'a'):
+		with open(fname, 'a'):
 			os.utime(fname, times)
