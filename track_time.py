@@ -78,6 +78,8 @@ def prompt_api_key():
     except:
         pass
 
+    return True
+
     if SETTINGS.get('api_key'):
         return True
     else:
@@ -182,6 +184,8 @@ def is_view_active(view):
 
 
 def handle_heartbeat(view, is_write=False):
+    if not SETTINGS.get('api_key'):
+        return
     window = view.window()
     if window is not None:
         target_file = view.file_name()
@@ -276,11 +280,13 @@ def plugin_loaded():
     global SETTINGS
     print('[ludik] Initializing ludik time track plugin v%s' % __version__)
 
-    if not python_binary():
-        sublime.error_message("Unable to find Python binary!\nWakaTime needs Python to work correctly.\n\nGo to https://www.python.org/downloads")
+    SETTINGS = sublime.load_settings(SETTINGS_FILE)
+    if SETTINGS.get('api_key') and not python_binary():
+        sublime.error_message("Unable to find Python binary!\Ludik time track needs Python to work correctly.\n\nGo to https://www.python.org/downloads")
         return
 
-    SETTINGS = sublime.load_settings(SETTINGS_FILE)
+    if not SETTINGS.get('api_key'):
+        print("[ludik] Unable to find api_key in ludik settings! Set it in Preferences - Settings - Settings-User")
     after_loaded()
 
 
