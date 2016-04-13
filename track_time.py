@@ -229,7 +229,7 @@ class SendHeartbeatThread(threading.Thread):
             '--file', self.target_file,
             '--time', str('%f' % self.timestamp),
             '--plugin', ua,
-            '--apiurl', 'http://photon.cheby.ru/api/v1/heartbeats',
+            '--apiurl', 'https://photon.cheby.ru/api/v1/heartbeats',
             '--key', str(bytes.decode(self.api_key.encode('utf8'))),
         ]
         if self.is_write:
