@@ -57,6 +57,13 @@
 						keep_params => ['type', 'select'],
 					},
 
+
+					{
+						icon    => 'options',
+						label   => 'параметры',
+						href    => '?type=__TYPE__&id=' . $_REQUEST {id_filter},
+					},
+
 					{
 						icon  => 'create',
 						label => '&Добавить',
@@ -83,6 +90,13 @@
 #							$_REQUEST {fake} != -1
 #							,
 #					},
+
+					{
+						icon   => 'xl',
+						label  => 'печать',
+						href   => {xls => 1},
+						target => 'invisible',
+					},
 
 
 					{
