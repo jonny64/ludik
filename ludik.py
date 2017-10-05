@@ -23,7 +23,18 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			'draw'            : 'Presentation'
 		}
 
+		self.xtr = self.view.file_name().endswith('.js') or self.view.file_name().endswith('.html')
+
+		if self.xtr:
+
+			action_folder = {
+				'select'          : 'js\\view',
+				'do_delete'       : 'js\\data',
+				'draw'            : 'html'
+			}
+
 		self.action = action
+
 
 		if self.view.file_name() == self.__build_new_file_name (action_folder[action]):
 
@@ -46,7 +57,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			view.show(pt.begin())
 			return
 
-		if sublime.ok_cancel_dialog(subname + ' doesn''t exist. Create it?'):
+		if not self.xtr and sublime.ok_cancel_dialog(subname + ' doesn''t exist. Create it?'):
 			sub_header = "\n################################################################################\n\n"
 			sub_body = subname + ' { # comments go here\n\n' + self.__sub_template(action) + "\n}"
 			sub_definition = sub_header + sub_body + "\n"
@@ -79,10 +90,18 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		return os.path.splitext(file_name)[0]
 
 	def __build_new_file_name(self, target_folder):
-
 		current_screen_folder = os.path.dirname(self.view.file_name())
+
 		lib_dir = os.path.dirname(current_screen_folder)
-		return os.path.join(lib_dir, target_folder, self.__currentScreenType()) + '.pm'
+
+		ext = '.pm'
+
+		if self.xtr:
+			ext = '.html' if target_folder == 'html' else '.js'
+			if os.path.basename(lib_dir) != 'app':
+				lib_dir = os.path.dirname(lib_dir)
+
+		return os.path.join(lib_dir, target_folder, self.__currentScreenType()) + ext
 
 	def __switch_to(self, target_folder):
 
