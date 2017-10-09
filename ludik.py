@@ -4,12 +4,8 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 	"""seeks and sets cursor to the beggining of standart eludia screen function"""
 
 	def run(self, edit, action):
-
 		self.edit = edit
-
-		if action == 'model':
-			self.__goto_model()
-			return
+		self.xtr = False
 
 		action_folder = {
 			'get_item_of'     : 'Content',
@@ -24,14 +20,19 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		}
 
 		self.xtr = self.view.file_name().endswith('.js') or self.view.file_name().endswith('.html')
+		self.xtr = self.xtr or 'back' in self.view.file_name()
+
+		if action == 'model':
+			self.__goto_model()
+			return
 
 		if self.xtr:
 
-			action_folder = {
-				'select'          : 'js\\view',
+			action_folder.update ({
+				'html'            : 'html',
 				'do_delete'       : 'js\\data',
-				'draw'            : 'html'
-			}
+				'draw'            : 'js\\view'
+			})
 
 		self.action = action
 
@@ -97,9 +98,19 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		ext = '.pm'
 
 		if self.xtr:
-			ext = '.html' if target_folder == 'html' else '.js'
-			if os.path.basename(lib_dir) != 'app':
+			if target_folder == 'html':
+				ext = '.html'
+			if target_folder.startswith('js'):
+				ext = '.js'
+
+			while 'back' in lib_dir or 'front' in lib_dir:
 				lib_dir = os.path.dirname(lib_dir)
+
+			sublime.status_message (target_folder)
+			if 'Content' in target_folder or 'Model' in target_folder:
+				lib_dir = os.path.join(lib_dir, 'back', 'lib')
+			else:
+				lib_dir = os.path.join(lib_dir, 'front', 'root', 'extra', '_', 'app')
 
 		return os.path.join(lib_dir, target_folder, self.__currentScreenType()) + ext
 

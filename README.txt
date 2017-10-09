@@ -15,9 +15,10 @@
 	alt + g = get_item
 	alt + s = select
 	alt + g = draw_item
-	alt + w = draw
+	alt + w = draw / xtr:js/view
 	alt + u = do_update
 	alt + c = do_create
-	alt + d = do_delete
+	alt + d = do_delete / xtr:js/data
+	alt + e = xtr:html
 
 	F5      = goto model and back to screen where we started

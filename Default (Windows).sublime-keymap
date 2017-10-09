@@ -12,5 +12,6 @@
 	{ "keys": ["alt+d"], "command": "ludik_move", "args": {"action": "do_delete"}},
 	{ "keys": ["alt+ctrl+d"], "command": "ludik_move", "args": {"action": "validate_delete"}},
 
+	{ "keys": ["alt+e"], "command": "ludik_move", "args": {"action": "html"}},
 	{ "keys": ["f5"],    "command": "ludik_move", "args": {"action": "model"}}
 ]
