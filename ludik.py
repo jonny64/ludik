@@ -58,7 +58,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			view.show(pt.begin())
 			return
 
-		if not self.xtr and sublime.ok_cancel_dialog(subname + ' doesn''t exist. Create it?'):
+		if (not self.xtr or 'Content' in self.view.file_name()) and sublime.ok_cancel_dialog(subname + ' doesn''t exist. Create it?'):
 			sub_header = "\n################################################################################\n\n"
 			sub_body = subname + ' { # comments go here\n\n' + self.__sub_template(action) + "\n}"
 			sub_definition = sub_header + sub_body + "\n"
