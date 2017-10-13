@@ -119,6 +119,12 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		new_file = self.__build_new_file_name (target_folder)
 
 		if not os.path.exists(new_file):
+			new_file, ext = os.path.splitext(new_file)
+			if  new_file.endswith('_list'):
+				new_file = new_file[:-5] + ext
+			else:
+				new_file = new_file + '_list' + ext
+		if not os.path.exists(new_file):
 			sublime.status_message('file ' + new_file + ' does not exist')
 			return
 
