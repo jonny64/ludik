@@ -20,7 +20,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		}
 
 		self.xtr = self.view.file_name().endswith('.js') or self.view.file_name().endswith('.html')
-		self.xtr = self.xtr or 'back' in self.view.file_name()
+		self.xtr = self.xtr or '\\back\\' in self.view.file_name()
 
 		if action == 'model':
 			self.__goto_model()
