@@ -110,7 +110,10 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			if 'Content' in target_folder or 'Model' in target_folder:
 				lib_dir = os.path.join(lib_dir, 'back', 'lib')
 			else:
-				lib_dir = os.path.join(lib_dir, 'front', 'root', 'extra', '_', 'app')
+				if os.path.exists(os.path.join(lib_dir, 'front', 'root', 'extra')):
+					lib_dir = os.path.join(lib_dir, 'front', 'root', 'extra', '_', 'app')
+				else:
+					lib_dir = os.path.join(lib_dir, 'front', 'root', '_', 'app')
 
 		return os.path.join(lib_dir, target_folder, self.__currentScreenType()) + ext
 
