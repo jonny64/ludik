@@ -1,4 +1,5 @@
 import sublime, sublime_plugin, os
+from shutil import copyfile
 
 class LudikMoveCommand(sublime_plugin.TextCommand):
 	"""seeks and sets cursor to the beggining of standart eludia screen function"""
@@ -26,6 +27,10 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			self.__goto_model()
 			return
 
+		if action == 'copy':
+			self.__copy_type()
+			return
+
 		if self.xtr:
 
 			action_folder.update ({
@@ -43,7 +48,6 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			self.__goto_sub(self.view, self.action)
 
 		else:
-
 			self.opened_view = self.__switch_to(action_folder[action])
 
 	def __goto_sub(self, view, action):
@@ -154,6 +158,37 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		self.old_folder = self.__current_folder()
 		self.__switch_to('Model')
 
+	def __copy_type(self):
+
+		sublime.status_message("__copy_type")
+
+		def on_done(copy_type_name):
+			sublime.status_message("copy starts...")
+
+			copy_files = []
+
+			for action in ['Content', 'js\\data', 'js\\view', 'html', 'Model']:
+				src = self.__build_new_file_name (action)
+				try:
+					dst = os.path.join(os.path.dirname(src), copy_type_name + os.path.splitext(src)[1])
+					copyfile(src, dst)
+					copy_files.append(dst)
+				except FileNotFoundError as e:
+					pass
+
+			for dst in copy_files:
+				self.view.window().open_file(dst)
+
+			sublime.status_message("copy done from " + copy_type_name)
+
+		def on_change(copy_type_name):
+			pass
+
+		def on_cancel():
+			sublime.status_message("Copy cancelled")
+
+		window = self.view.window()
+		window.show_input_panel("Copy current type to:", "", on_done, on_change, on_cancel)
 
 	def __current_folder(self):
 
