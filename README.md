@@ -2,7 +2,7 @@
 Purpose
 ---
 
-This Sublime 2 plugin adds navigation hotkeys and templates for Eludia.pm framework (http://github.com/do-/eludia)
+This Sublime 3 plugin adds navigation hotkeys and templates for old Eludia.pm and dia.pm framework (http://github.com/do-/dia.pm)
 
 Installation
 ---
