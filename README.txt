@@ -12,13 +12,15 @@
 
 	use following hotkeys to quickly switch/create functions in Content/Presentation:
 
-	alt + g = get_item
-	alt + s = select
+	alt + g = Get_item
+	alt + s = Select
 	alt + g = draw_item
-	alt + w = draw / xtr:js/view
-	alt + u = do_update
-	alt + c = do_create
-	alt + d = do_delete / xtr:js/data
+	alt + w = draW / xtr:js/view
+	alt + u = do_Update
+	alt + c = do_Create
+	alt + d = do_Delete / xtr:js/Data
 	alt + e = xtr:html
 
 	F5      = goto model and back to screen where we started
+	
+	edit hotkeys in Default (Windows).sublime-keymap
