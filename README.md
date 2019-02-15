@@ -19,11 +19,11 @@ use following hotkeys to quickly switch/create functions in Content/Presentation
 * alt + g = Get_item
 * alt + s = Select
 * alt + g = draw_item
-* alt + w = draW / xtr:js/view
+* alt + w = draW / front:js/vieW
 * alt + u = do_Update
 * alt + c = do_Create
-* alt + d = do_Delete / xtr:js/Data
-* alt + e = xtr:html
+* alt + d = do_Delete / front:js/Data
+* alt + e = front:html
 * F5      = goto model and back to screen where we started
 * F12     = copy Content data view html Model to new screen: asks name of new screen
 	
