@@ -84,6 +84,10 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		return template
 
 	def __subname(self, action):
+
+		if 'Content' in self.view.file_name() and self.view.file_name().endswith('.js'):
+			return action + '_' + self.__currentScreenType() + ':'
+
 		return 'sub ' + action + '_' + self.__currentScreenType()
 
 	def __currentScreenType(self):
