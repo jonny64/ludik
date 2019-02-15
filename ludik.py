@@ -115,7 +115,12 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 				else:
 					lib_dir = os.path.join(lib_dir, 'front', 'root', '_', 'app')
 
-		return os.path.join(lib_dir, target_folder, self.__currentScreenType()) + ext
+		file = os.path.join(lib_dir, target_folder, self.__currentScreenType())
+
+		if os.path.exists(file + '.js'):
+			ext = '.js'
+
+		return file + ext
 
 	def __switch_to(self, target_folder):
 
