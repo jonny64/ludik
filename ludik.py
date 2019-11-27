@@ -150,6 +150,12 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			if not os.path.exists(new_file):
 				new_file = name + 's' + '.js'
 
+			if not os.path.exists(new_file) and name.endswith('_roster'):
+				new_file = name[:-7] + '.js'
+
+			if not os.path.exists(new_file) and name.endswith('_new'):
+				new_file = name[:-4] + 's' + '.js'
+
 		if not os.path.exists(new_file):
 			sublime.status_message('file ' + new_file + ' does not exist')
 			return
