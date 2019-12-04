@@ -187,7 +187,8 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 				src = self.__build_new_file_name (action)
 				try:
 					dst = os.path.join(os.path.dirname(src), copy_type_name + os.path.splitext(src)[1])
-					copyfile(src, dst)
+					if not os.path.exists(dst):
+						copyfile(src, dst)
 					copy_files.append(dst)
 				except FileNotFoundError as e:
 					pass
