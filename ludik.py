@@ -36,7 +36,8 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 			action_folder.update ({
 				'html'            : 'html',
 				'do_delete'       : 'js\\data',
-				'draw'            : 'js\\view'
+				'draw'            : 'js\\view',
+				'draw_item_of'    : 'js\\view'
 			})
 
 		self.action = action
@@ -134,8 +135,12 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 		new_file = self.__build_new_file_name (target_folder)
 
+		name, ext = os.path.splitext(new_file)
+
+		if self.action == 'draw_item_of' and os.path.exists(name[:-1] + ext):
+			new_file = name[:-1] + ext
+
 		if not os.path.exists(new_file):
-			name, ext = os.path.splitext(new_file)
 			if  name.endswith('_list'):
 				new_file = name[:-5] + ext
 			else:
