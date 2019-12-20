@@ -23,6 +23,8 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		self.xtr = self.view.file_name().endswith('.js') or self.view.file_name().endswith('.html')
 		self.xtr = self.xtr or '\\back\\' in self.view.file_name()
 
+		self.action = action
+		
 		if action == 'model':
 			self.__goto_model()
 			return
@@ -39,8 +41,6 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 				'draw'            : 'js\\view',
 				'draw_item_of'    : 'js\\view'
 			})
-
-		self.action = action
 
 
 		if self.view.file_name() == self.__build_new_file_name (action_folder[action]):
