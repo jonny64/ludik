@@ -126,11 +126,11 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 		file = os.path.join(lib_dir, target_folder, self.__currentScreenType())
 
-		if os.path.exists(file + '.js'):
-			ext = '.js'
+		if target_folder == 'Model':
+			if not os.path.exists(file + ext) and not os.path.exists(file + '.js'): file = os.path.join(lib_dir, target_folder, 'oltp', self.__currentScreenType())
+			if not os.path.exists(file + ext) and not os.path.exists(file + '.js'): file = os.path.join(lib_dir, target_folder, 'dw', self.__currentScreenType())
 
-		if target_folder == 'Model' and not os.path.exists(file + ext):
-			file = os.path.join(lib_dir, target_folder, 'oltp', self.__currentScreenType())
+		if os.path.exists(file + '.js'): ext = '.js'
 
 		return file + ext
 
