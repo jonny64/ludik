@@ -128,6 +128,9 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 		if os.path.exists(file + '.js'):
 			ext = '.js'
+		else:
+			if 'Model' in target_folder:
+				file = os.path.join(lib_dir, target_folder, 'oltp', self.__currentScreenType())
 
 		return file + ext
 
