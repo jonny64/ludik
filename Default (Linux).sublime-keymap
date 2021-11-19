@@ -1,0 +1,18 @@
+[
+	{ "keys": ["ctrl+shift+t"], "command": "open_recent_file", "args": {"index" : 0} },
+
+	// ludik
+	{ "keys": ["alt+g"], "command": "ludik_move", "args": {"action": "get_item_of"}},
+	{ "keys": ["alt+s"], "command": "ludik_move", "args": {"action": "select"}},
+	{ "keys": ["alt+w"], "command": "ludik_move", "args": {"action": "draw"}},
+	{ "keys": ["alt+m"], "command": "ludik_move", "args": {"action": "draw_item_of"}},
+	{ "keys": ["alt+u"], "command": "ludik_move", "args": {"action": "do_update"}},
+	{ "keys": ["alt+ctrl+u"], "command": "ludik_move", "args": {"action": "validate_update"}},
+	{ "keys": ["alt+c"], "command": "ludik_move", "args": {"action": "do_create"}},
+	{ "keys": ["alt+d"], "command": "ludik_move", "args": {"action": "do_delete"}},
+	{ "keys": ["alt+ctrl+d"], "command": "ludik_move", "args": {"action": "validate_delete"}},
+
+	{ "keys": ["alt+e"], "command": "ludik_move", "args": {"action": "html"}},
+	{ "keys": ["f5"],    "command": "ludik_move", "args": {"action": "model"}},
+	{ "keys": ["f12"],   "command": "ludik_move", "args": {"action": "copy"}}
+]
