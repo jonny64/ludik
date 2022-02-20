@@ -21,7 +21,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		}
 
 		self.xtr = self.view.file_name().endswith('.js') or self.view.file_name().endswith('.html')
-		self.xtr = self.xtr or '\\back\\' in self.view.file_name()
+		self.xtr = self.xtr or os.path.sep + 'back' + os.path.sep in self.view.file_name()
 
 		self.action = action
 		
@@ -37,9 +37,9 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 			action_folder.update ({
 				'html'            : 'html',
-				'do_delete'       : 'js\\data',
-				'draw'            : 'js\\view',
-				'draw_item_of'    : 'js\\view'
+				'do_delete'       : os.path.join('js', 'data'),
+				'draw'            : os.path.join('js', 'view'),
+				'draw_item_of'    : os.path.join('js', 'view')
 			})
 
 
@@ -191,7 +191,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 			copy_files = []
 
-			for action in ['Content', 'js\\data', 'js\\view', 'html', 'Model']:
+			for action in ['Content', os.path.join('js', 'data'), os.path.join('js', 'view'), 'html', 'Model']:
 				src = self.__build_new_file_name (action)
 				try:
 					dst = os.path.join(os.path.dirname(src), copy_type_name + os.path.splitext(src)[1])
