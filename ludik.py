@@ -21,7 +21,7 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		}
 
 		self.xtr = self.view.file_name().endswith('.js') or self.view.file_name().endswith('.html')
-		self.xtr = self.xtr or '\\back\\' in self.view.file_name()
+		self.xtr = self.xtr or os.path.sep + 'back' + os.path.sep in self.view.file_name()
 
 		self.action = action
 		
@@ -37,9 +37,9 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 
 			action_folder.update ({
 				'html'            : 'html',
-				'do_delete'       : 'js\\data',
-				'draw'            : 'js\\view',
-				'draw_item_of'    : 'js\\view'
+				'do_delete'       : os.path.join('js', 'data'),
+				'draw'            : os.path.join('js', 'view'),
+				'draw_item_of'    : os.path.join('js', 'view')
 			})
 
 
@@ -189,10 +189,37 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 		def on_done(copy_type_name):
 			sublime.status_message("copy starts...")
 
+
+			# ---- Build source file paths ----
+
+			actions = ['Content', os.path.join('js', 'data'), os.path.join('js', 'view'), 'html', 'Model']
+
+			src_files = []
+
+			for action in actions:
+				src = self.__build_new_file_name (action)
+				src_files.append(src)
+
+
+			# ---- If any of the source files does not exist, show a message with `not_existing_src_files` and exit ----
+
+			not_existing_src_files = []
+
+			for src in src_files:
+				if not os.path.exists(src):
+					not_existing_src_files.append(src)
+
+			if not_existing_src_files:
+				msg = 'Cannot find source files:\n\n' + '\n'.join(not_existing_src_files)
+				sublime.message_dialog(msg)
+				return
+
+
+			# ---- Copy files ----
+
 			copy_files = []
 
-			for action in ['Content', 'js\\data', 'js\\view', 'html', 'Model']:
-				src = self.__build_new_file_name (action)
+			for src in src_files:
 				try:
 					dst = os.path.join(os.path.dirname(src), copy_type_name + os.path.splitext(src)[1])
 					if not os.path.exists(dst):
@@ -201,8 +228,12 @@ class LudikMoveCommand(sublime_plugin.TextCommand):
 				except FileNotFoundError as e:
 					pass
 
+
+			# ---- Open new files in the editor ----
+
 			for dst in copy_files:
 				self.view.window().open_file(dst)
+
 
 			sublime.status_message("copy done from " + copy_type_name)
 
